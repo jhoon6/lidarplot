@@ -25,6 +25,8 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
+find_package(cv_bridge REQUIRED)
+find_package(OpenCV REQUIRED)
 
 ################################################################################
 # Build
@@ -40,6 +42,8 @@ ament_target_dependencies(sub
   rclcpp
   std_srvs
   sensor_msgs
+  cv_bridge
+  OpenCV
 )
 
 install(

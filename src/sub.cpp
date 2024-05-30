@@ -11,6 +11,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/laser_scan.hpp"
 #include <math.h>
+#include "opencv2/opencv.hpp"
 
 #define RAD2DEG(x) ((x)*180./M_PI)
 
@@ -19,6 +20,8 @@ static void scanCb(sensor_msgs::msg::LaserScan::SharedPtr scan) {
   printf("[SLLIDAR INFO]: I heard a laser scan %s[%d]:\n", scan->header.frame_id.c_str(), count);
   printf("[SLLIDAR INFO]: angle_range : [%f, %f]\n", RAD2DEG(scan->angle_min),
          RAD2DEG(scan->angle_max));
+
+  Mat img(Size(500,500)); //START FROM RIGHT HERE
 
   for (int i = 0; i < count; i++) {
     float degree = RAD2DEG(scan->angle_min + scan->angle_increment * i);
