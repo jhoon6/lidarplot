@@ -2,7 +2,7 @@
 # Set minimum required version of cmake, project name and compile options
 ################################################################################
 cmake_minimum_required(VERSION 3.5)
-project(sllidar_ros2)
+project(lidarplot)
 
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
@@ -17,16 +17,6 @@ if(MSVC)
     _USE_MATH_DEFINES
   )
 endif()
-
-set(SLLIDAR_SDK_PATH "./sdk/")
-
-FILE(GLOB SLLIDAR_SDK_SRC 
-  "${SLLIDAR_SDK_PATH}/src/arch/linux/*.cpp"
-  "${SLLIDAR_SDK_PATH}/src/hal/*.cpp"
-  "${SLLIDAR_SDK_PATH}/src/*.cpp"
-  "${SLLIDAR_SDK_PATH}/src/dataunpacker/*.cpp"
-  "${SLLIDAR_SDK_PATH}/src/dataunpacker/unpacker/*.cpp"
-)
 
 ################################################################################
 # Find ament packages and libraries for ament and system dependencies
@@ -45,29 +35,15 @@ include_directories(
   ${Boost_INCLUDE_DIRS}
 )
 
-add_executable(sllidar_node	src/sllidar_node.cpp ${SLLIDAR_SDK_SRC})
-# target_link_libraries(sllidar_node ${ament_cmake_LIBRARIES})
-ament_target_dependencies(sllidar_node
+add_executable(sub src/sub.cpp)
+ament_target_dependencies(sub
   rclcpp
   std_srvs
   sensor_msgs
-)
-
-add_executable(sllidar_client src/sllidar_client.cpp)
-ament_target_dependencies(sllidar_client
-  rclcpp
-  std_srvs
-  sensor_msgs
-)
-################################################################################
-# Install
-################################################################################
-install(DIRECTORY launch rviz
-  DESTINATION share/${PROJECT_NAME}
 )
 
 install(
-  TARGETS sllidar_node sllidar_client
+  TARGETS sub
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 

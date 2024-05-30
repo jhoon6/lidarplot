@@ -29,7 +29,7 @@ static void scanCb(sensor_msgs::msg::LaserScan::SharedPtr scan) {
 int main(int argc, char **argv) {
   rclcpp::init(argc, argv);
 
-  auto node = rclcpp::Node::make_shared("sllidar_client");
+  auto node = rclcpp::Node::make_shared("sub");
 
   auto lidar_info_sub = node->create_subscription<sensor_msgs::msg::LaserScan>(
                         "scan", rclcpp::SensorDataQoS(), scanCb);
