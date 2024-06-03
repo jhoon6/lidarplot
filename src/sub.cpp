@@ -18,11 +18,14 @@
 static void scanCb(sensor_msgs::msg::LaserScan::SharedPtr scan) {
   int count = scan->scan_time / scan->time_increment;
   printf("[SLLIDAR INFO]: I heard a laser scan %s[%d]:\n", scan->header.frame_id.c_str(), count);
-  printf("[SLLIDAR INFO]: angle_range : [%f, %f]\n", RAD2DEG(scan->angle_min),
-         RAD2DEG(scan->angle_max));
+  printf("[SLLIDAR INFO]: angle_range : [%f, %f]\n", RAD2DEG(scan->angle_min), RAD2DEG(scan->angle_max));
 
-  cv::Mat img(cv::Size(500, 500), CV_8UC3, cv::Scalar(255, 255, 255));
-  cv::drawMarker(img, cv::Point(250, 250), cv::Scalar(0, 0, 0), cv::MARKER_CROSS, 10, 1, cv::LINE_4);
+  cv::Mat img(cv::Size(500, 500), CV_8UC3, cv::Scalar(0, 0, 0));
+  //cv::drawMarker(img, cv::Point(250, 250), cv::Scalar(255, 255, 255), cv::MARKER_CROSS, 10, 1, cv::LINE_4);
+
+  cv::drawMarker(img, cv::Point(250, 250), cv::Scalar(0, 100, 0), cv::MARKER_CROSS, 500, 1, cv::LINE_4);
+  cv::drawMarker(img, cv::Point(250, 250), cv::Scalar(0, 100, 0), cv::MARKER_STAR, 500, 1, cv::LINE_4);
+  for (float r = 50; r <= 250; r += 50) cv::circle(img, cv::Point(250, 250), r, cv::Scalar(0, 100, 0), 1);
 
   for (int i = 0; i < count; i++) {
     float angle = scan->angle_min + scan->angle_increment * i;
@@ -33,7 +36,14 @@ static void scanCb(sensor_msgs::msg::LaserScan::SharedPtr scan) {
     int x = 250 + (distance * 100.0 * sin(angle));
     int y = 250 + (distance * 100.0 * cos(angle));
 
-    cv::drawMarker(img, cv::Point(x, y), cv::Scalar(0, 0, 255), cv::MARKER_SQUARE, 2, 2, cv::LINE_4);
+    cv::drawMarker(img, cv::Point(x, y), cv::Scalar(0, 255, 0), cv::MARKER_SQUARE, 2, 2, cv::LINE_4);
+
+    /*
+    if (degree >= -180 && degree < -90)    cv::drawMarker(img, cv::Point(x, y), cv::Scalar(0, 255, 0), cv::MARKER_SQUARE, 2, 2, cv::LINE_4); //초록-전좌
+    else if (degree >= -90 && degree < 0)  cv::drawMarker(img, cv::Point(x, y), cv::Scalar(255, 0, 0), cv::MARKER_SQUARE, 2, 2, cv::LINE_4); //파랑-후좌
+    else if (degree >= 0 && degree < 90)   cv::drawMarker(img, cv::Point(x, y), cv::Scalar(0, 0, 255), cv::MARKER_SQUARE, 2, 2, cv::LINE_4); //빨강-후우
+    else if (degree >= 90 && degree < 180) cv::drawMarker(img, cv::Point(x, y), cv::Scalar(0, 255, 255), cv::MARKER_SQUARE, 2, 2, cv::LINE_4); //노랑-전우
+    */
 
     //printf("[SLLIDAR INFO]: angle-distance : [%f, %f]\n", degree, distance);
   }
