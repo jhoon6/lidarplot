@@ -46,8 +46,17 @@ ament_target_dependencies(sub
   OpenCV
 )
 
+add_executable(plot_vid src/plot_vid.cpp)
+ament_target_dependencies(plot_vid
+  rclcpp
+  std_srvs
+  sensor_msgs
+  cv_bridge
+  OpenCV
+)
+
 install(
-  TARGETS sub
+  TARGETS sub plot_vid
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 
