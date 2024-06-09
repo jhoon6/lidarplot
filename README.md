@@ -1,5 +1,13 @@
-# edited SLAMTEC LIDAR ROS2 subscribe node for ploting on opencv mat
+## modified SLAMTEC LIDAR ROS2 subscribe node for ploting on opencv mat
+![plot image](https://files.catbox.moe/xj1lz5.webp)
 
 
+display only
 
-![plot image](https://raw.githubusercontent.com/jhoon6/lidarplot/main/lidarplot.png)
+`ros2 run lidarplot sub`
+
+or
+
+save video
+
+`ros2 run lidarplot savevid`
